@@ -114,7 +114,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
-  components: 'MyHeader'
+  components: {
+    MyHeader: _components_MyHeader_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
 });
 
 /***/ }),
@@ -198,7 +200,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div");
+  return _c("div", [_c("MyHeader")], 1);
 };
 
 var staticRenderFns = [];
