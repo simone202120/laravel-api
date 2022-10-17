@@ -8,8 +8,9 @@
     <link href="{{asset('css/app.css')}}" rel="stylesheet" />
 </head>
 <body>
-    <h1>home frontend non loggato</h1>
-
+    <div id='root'>
+        <h1>home frontend non loggato</h1>
+    </div>
 
     <script src="{{asset('js/front.js')}}"></script>
 </body>
