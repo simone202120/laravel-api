@@ -1948,16 +1948,25 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       posts: [],
-      loading: true
+      loading: true,
+      currentPage: 1,
+      lastPage: null
     };
   },
   methods: {
-    getposts: function getposts() {
+    getposts: function getposts(page) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/posts').then(function (response) {
-        _this.posts = response.data.results;
+      this.loading = true;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/posts', {
+        params: {
+          page: page
+        }
+      }).then(function (response) {
+        _this.posts = response.data.results.data;
         _this.loading = false;
+        _this.currentPage = response.data.results.current_page;
+        _this.lastPage = response.data.results.last_page;
       });
     },
     trocatetext: function trocatetext(text, maxlength) {
@@ -1969,7 +1978,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.getposts();
+    this.getposts(1);
   }
 });
 
@@ -2100,7 +2109,37 @@ var render = function render() {
     }, [_vm._v("Leggi articolo")])], 1), _vm._v(" "), _c("div", {
       staticClass: "card-footer text-muted"
     }, [_vm._v("\n            " + _vm._s(post.updated_at) + "\n        ")])]);
-  })], 2);
+  }), _vm._v(" "), _c("nav", {
+    attrs: {
+      "aria-label": "Page navigation example"
+    }
+  }, [_c("ul", {
+    staticClass: "pagination"
+  }, [_c("li", {
+    staticClass: "page-item"
+  }, [_c("a", {
+    staticClass: "page-link",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.getposts(_vm.currentPage - 1);
+      }
+    }
+  }, [_vm._v("Previous")])]), _vm._v(" "), _c("li", {
+    staticClass: "page-item"
+  }, [_c("a", {
+    staticClass: "page-link",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.getposts(_vm.currentPage + 1);
+      }
+    }
+  }, [_vm._v("Next")])])])])], 2);
 };
 
 var staticRenderFns = [function () {

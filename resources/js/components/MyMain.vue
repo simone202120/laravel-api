@@ -25,6 +25,12 @@
                 {{post.updated_at}}
             </div>
         </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#" @click="getposts(currentPage - 1)">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#" @click="getposts(currentPage + 1)">Next</a></li>
+            </ul>
+        </nav>
     </div>
   
 </template>
@@ -37,16 +43,26 @@ export default {
     data() {
         return {
             posts:[],
-            loading: true
+            loading: true,
+            currentPage:1,
+            lastPage:null,
         }
     },
 
     methods:{
-        getposts(){
-            Axios.get('/api/posts')
+        getposts(page){
+            this.loading=true;
+            Axios.get('/api/posts',{
+                params:{
+                    page: page
+                }
+            })
             .then((response)=> {
-                this.posts = response.data.results;
+                this.posts = response.data.results.data;
                 this.loading=false;
+                this.currentPage= response.data.results.current_page;
+                this.lastPage= response.data.results.last_page;
+
             });
         },
 
@@ -61,7 +77,7 @@ export default {
         }
     },
     mounted(){
-            this.getposts();
+            this.getposts(1);
         }
 }
 
