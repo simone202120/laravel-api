@@ -1947,7 +1947,8 @@ __webpack_require__.r(__webpack_exports__);
   name: 'MyMain',
   data: function data() {
     return {
-      posts: []
+      posts: [],
+      loading: true
     };
   },
   methods: {
@@ -1956,7 +1957,15 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/posts').then(function (response) {
         _this.posts = response.data.results;
+        _this.loading = false;
       });
+    },
+    trocatetext: function trocatetext(text, maxlength) {
+      if (text.length < maxlength) {
+        return text;
+      } else {
+        return text.substring(0, maxlength) + '...';
+      }
     }
   },
   mounted: function mounted() {
@@ -2071,28 +2080,54 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "container"
-  }, _vm._l(_vm.posts, function (post, index) {
+  }, [_vm.loading ? _c("div", {
+    staticClass: "d-flex justify-content-center"
+  }, [_vm._m(0)]) : _vm._l(_vm.posts, function (post, index) {
     return _c("div", {
       key: index,
       staticClass: "card text-center mt-5"
     }, [_c("div", {
       staticClass: "card-header"
-    }, [_vm._v("\n            " + _vm._s(post.title) + "\n        ")]), _vm._v(" "), _c("div", {
+    }, [_c("H5", [_vm._v("TITOLO")]), _vm._v(" "), _c("H5", [_vm._v(_vm._s(post.title))])], 1), _vm._v(" "), _vm.loading ? _c("div", [_vm._m(1, true)]) : _vm._e(), _vm._v(" "), _c("div", {
       staticClass: "card-body"
     }, [_c("p", {
       staticClass: "card-text"
-    }, [_vm._v(_vm._s(post.content))]), _vm._v(" "), _c("h6", [_vm._v(_vm._s(post.category.name))]), _vm._v(" "), _c("a", {
+    }, [_vm._v(_vm._s(_vm.trocatetext(post.content, 50)))]), _vm._v(" "), _c("P", [_vm._v("CATEGORY:" + _vm._s(post.category.name))]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-primary",
       attrs: {
         href: "#"
       }
-    }, [_vm._v("Leggi articolo")])]), _vm._v(" "), _c("div", {
+    }, [_vm._v("Leggi articolo")])], 1), _vm._v(" "), _c("div", {
       staticClass: "card-footer text-muted"
     }, [_vm._v("\n            " + _vm._s(post.updated_at) + "\n        ")])]);
-  }), 0);
+  })], 2);
 };
 
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "spinner-border",
+    attrs: {
+      role: "status"
+    }
+  }, [_c("span", {
+    staticClass: "sr-only"
+  }, [_vm._v("Loading...")])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "spinner-border text-warning",
+    attrs: {
+      role: "status"
+    }
+  }, [_c("span", {
+    staticClass: "sr-only"
+  }, [_vm._v("Loading...")])]);
+}];
 render._withStripped = true;
 
 
